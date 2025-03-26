@@ -27,7 +27,7 @@ def chat_vloces(content, syetem_content = "你是来自电影银翼杀手2049的
     ans = response.json()['choices'][0]['message']['content']
     return(ans)
 
-def chat_deepseek(content, syetem_content = "你是来自电影银翼杀手2049的女主角乔伊!"):
+def chat_deepseek(content, syetem_content = "你是一个有用的助手， 你要尽力并温柔的回答问题"):
     client = OpenAI(api_key="sk-0dad667193c24aa7ad5a2af8d5aba764", base_url="https://api.deepseek.com")
 
     response = client.chat.completions.create(
@@ -36,7 +36,9 @@ def chat_deepseek(content, syetem_content = "你是来自电影银翼杀手2049�
             {"role": "system", "content": syetem_content},
             {"role": "user", "content": content},
         ],
-        stream=False  # 启用流式传输
+        stream=False,  # 启用流式传输
+        temperature = 0.9,
+        max_tokens = 300,
     )
 
     return(response.choices[0].message.content)
