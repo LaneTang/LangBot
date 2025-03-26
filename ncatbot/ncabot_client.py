@@ -1,6 +1,7 @@
 from ncatbot.core import BotClient, GroupMessage, PrivateMessage
 from ncatbot.utils.config import config
 from ncatbot.utils.logger import get_log
+from ai_api import chat_vloces, chat_deepseek
 
 _log = get_log()
 
@@ -13,17 +14,31 @@ bot = BotClient()
 
 
 @bot.group_event()
-async def on_group_message(msg: GroupMessage):
+async def on_group_message_test(msg: GroupMessage):
     _log.info(msg)
     if msg.raw_message == "测试":
         await msg.reply(text="NcatBot 测试成功喵~")
+        await msg.reply(text="NcatBot 测试成功喵~")
 
-
-@bot.private_event()
-async def on_private_message(msg: PrivateMessage):
+@bot.group_event()
+async def on_group_message_test(msg: GroupMessage):
     _log.info(msg)
-    if msg.raw_message == "测试":
-        await bot.api.post_private_msg(msg.user_id, text="NcatBot 测试成功喵~")
+    if msg.raw_message == "乔伊":
+        await msg.reply(text= chat_deepseek(msg.raw_message) )
+
+
+@bot.group_event()
+async def on_group_message_ai_api(msg: GroupMessage):
+    _log.info(msg)
+    if msg.raw_message[:2] == "火山":
+        await msg.reply(text= chat_vloces("你好") )
+
+
+# @bot.private_event()
+# async def on_private_message(msg: PrivateMessage):
+#     _log.info(msg)
+#     if msg.raw_message == "测试":
+#         await bot.api.post_private_msg(msg.user_id, text="NcatBot 测试成功喵~")
 
 
 if __name__ == "__main__":
